@@ -26,7 +26,7 @@
 
 # References
 
-## Bruce, V., & Young, A.W. (1986). Understanding face recognition. British Journal of Psychology,	77, 305-327.
+## Bruce, V., & Young, A.W. (1986). Understanding face recognition. British Journal of Psychology, 77, 305-327.
 ## Burton,	A.M.,	Bruce, V., & Johnston, R.A. (1990).	Understanding face recognition with an interactive activation model. British Journal of Psychology, 81, 361-380.
 ## Burton,	A.M., Young, A.W., Bruce, V., Johnston, R., &	Ellis, A.W. (1991). Understanding covert recognition. Cognition, 39, 129-166.	
 ## Burton, A.M., & Bruce, V. (1992). I recognise your face but I	can’t remember your name: a simple explanation? British	Journal of Psychology, 83, 45-60.
