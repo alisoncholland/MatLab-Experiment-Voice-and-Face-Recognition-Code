@@ -1,0 +1,277 @@
+Copyright © 2014, Alison C. Holland, All rights reserved.
+
+%---------------------------------------
+% MatLab Voice and Face Recognition Code
+%---------------------------------------
+
+clear all; clc;
+
+
+% configure display
+
+config_display(1, 3, [0, 0, 0], [1, 1, 1], 'Arial', 24, 70, 16);
+%configure display
+
+config_keyboard(100, 5, 'exclusive'); 
+% configure keyboard
+
+config_sound(2, 16, 44100, 30);
+% configue sound
+
+        
+%%
+        
+% Set group and initials, set questions relating to output file name and data headers
+
+group = input('Group 1 or 2? ', 's');
+% experimenter types which group subject is in
+
+initials = input('Subject''s initials? ','s');  
+% subjects initials used for anonymous results and log files & configuring these files
+
+gender = input('Subject''s gender (m for male; f for female) ','s'); 
+% subjects' gender logged
+        
+age = input('Subject''s age ','s'); 
+% subjects' age logged
+
+
+% if ~exist('.\LOGFILES\','dir'); mkdir LOGFILES; end 
+% % make an output folder if necessary
+% 
+%         filename = initials;
+%         log = fopen(['.\LOGFILES\' filename '.txt'],'W');    
+%         % gives appropriate name to output file
+        
+        
+if ~exist('C:\Users\emomus\Desktop\SCAN_AP\RESULTS_4762082','dir'); mkdir C:\Users\emomus\Desktop\SCAN_AP\RESULTS_4762082; end 
+% make an output folder if necessary
+
+        filename = initials;
+        log = fopen(['C:\Users\emomus\Desktop\SCAN_AP\RESULTS_4762082\' filename '.txt'],'W');    
+        % gives appropriate name to output file
+        
+        fprintf(log,  '%s   \r', ['group   initials   response   reaction_time']); 
+        % headers for data columns
+
+
+%%
+
+% Prepare stimuli
+      
+start_cogent;
+keymap = getkeymap;  
+% Get map of keyboard to check for key presses. 
+
+
+% Load pictures  
+
+loadpict('sample1.bmp', 1);
+loadpict('sample2.bmp', 2);
+loadpict('sample3.bmp', 3);
+loadpict('sample4.bmp', 4);
+loadpict('sample5.bmp', 5);
+loadpict('sample6.bmp', 6);
+loadpict('sample7.bmp', 7);
+loadpict('sample8.bmp', 8);
+loadpict('sample9.bmp', 9);
+loadpict('sample10.bmp', 10);
+
+
+% Load sounds
+
+loadsound('sample11.wav', 11);
+loadsound('sample12.wav', 12);
+loadsound('sample13.wav', 13);
+loadsound('sample14.wav', 14);
+loadsound('sample15.wav', 15);
+loadsound('sample16.wav', 16);
+loadsound('sample17.wav', 17);
+loadsound('sample18.wav', 18);
+loadsound('sample19.wav', 19);
+loadsound('sample20.wav', 20);
+
+
+% Load instructions
+
+preparestring('You will be presented with a series of faces and voices of celebrities', 21);
+preparestring('Press the LEFT arrow key if the celebrity is FAMILIAR or the RIGHT arrow key if the celebrity is UNFAMILIAR', 22);
+preparestring('Every face and voice must be either rated as familiar (left) or unfamiliar (right)', 23);
+preparestring('Please only rate the voice after it has finished playing', 24);
+preparestring('Do you have any questions? If not press the space bar to start.', 25);
+preparestring('+', 26);
+
+
+% Load goodbye message
+
+preparestring('Thank you for taking part', 27);
+
+
+%%
+
+% Present stimuli
+
+% Present instructions
+
+drawpict(21); 
+wait(5000);
+drawpict(22); 
+wait(6000);
+drawpict(23); 
+wait(6000);
+drawpict(24); 
+wait(5000);
+drawpict(25); 
+waitkeydown(inf, 71); % 71 is space bar key
+
+        
+% Group 1: present faces then voices. After each face/voice is presented wait for key press.        
+
+if group == '1'
+    
+    for i = 1:10;
+   
+    clear response responsekey keys reaction_time t n;
+    clearkeys;
+    readkeys;
+    % clear any variables
+   
+    drawpict(26); wait(2000);
+    % fixation point
+    
+    present_faces = drawpict(i);
+    % present faces
+    
+    waitkeydown(inf, [keymap.Left keymap.Right]); 
+    % wait for response
+   
+    [k, t, n] = getkeydown;
+    responsekey  = k(1);
+    reaction_time = t(1) - present_faces;
+    % logs key press 
+
+    if responsekey == keymap.Left; response = 1; % 1 = famliar
+    elseif responsekey == keymap.Right; response = 2; % 2 = unfamiliar
+    else response = 999;
+    end
+    % Transform key pressed to respective response. After each face/voice is presented wait for key press.
+        
+    fprintf(log,  '%s   \r', [group ' ' initials ' ' num2str(i) ' ' num2str(response) ' ' num2str(reaction_time)]);
+
+    end
+
+    
+    for j = 11:20;
+   
+    clear response responsekey keys reaction_time t n;
+    clearkeys;
+    readkeys;
+    % clear any variables
+    
+    drawpict(26);
+    % fixation point
+    
+    playsound(j); waitsound(j);
+    % present voices
+    
+    waitkeydown(inf, [keymap.Left keymap.Right]);
+    % display buffer 1 and wait 2000ms
+   
+    [k, t, n] = getkeydown;
+    responsekey  = k(1);
+    reaction_time = t(1);
+    % logs key press 
+
+    if responsekey == keymap.Left; response = 1; % 1 = familiar
+    elseif responsekey == keymap.Right; response = 2; % 2 = unfamiliar
+    else response = 999; 
+    end
+    % Transform key pressed to respective response
+        
+    fprintf(log,  '%s  \r', [group ' ' initials ' ' num2str(j) ' ' num2str(response) ' ' num2str(reaction_time)]);
+
+    end
+
+
+% Group 2: present voices then faces
+
+elseif group == '2'
+    
+    for i = 11:20;
+   
+    clear response responsekey keys reaction_time t n;
+    clearkeys;
+    readkeys;
+    % clear any variables
+    
+    drawpict(26);
+    % fixation point
+    
+    playsound(i); waitsound(i);
+    % present voices
+    
+    waitkeydown(inf, [keymap.Left keymap.Right]);
+    % display buffer 1 and wait 2000ms
+   
+    [k, t, n] = getkeydown;
+    responsekey  = k(1);
+    reaction_time = t(1);
+    % logs key press 
+
+    if responsekey == keymap.Left; response = 1; % familiar 
+    elseif responsekey == keymap.Right; response = 2; % unfamiliar
+    else response = 999; 
+    end
+    % Transform key pressed to respective response
+        
+    fprintf(log,  '%s   \r', [group ' ' initials ' ' num2str(i) ' ' num2str(response) ' ' num2str(reaction_time)]);
+
+    end
+    
+    for j = 1:10;
+   
+    clear response responsekey keys reaction_time t n;
+    clearkeys;
+    readkeys;
+    % clear any variables
+   
+    drawpict(26); wait(2000);
+    % fixation point
+    
+    present_faces = drawpict(j);
+    % present faces
+    
+    waitkeydown(inf, [keymap.Left keymap.Right]); 
+    % wait for response
+   
+    [k, t, n] = getkeydown;
+    responsekey  = k(1);
+    reaction_time = t(1) - present_faces;
+    % logs key press 
+
+    if responsekey == keymap.Left; response = 1; % familiar
+    elseif responsekey == keymap.Right; response = 2; % unfamiliar
+    else response = 999; 
+    end
+    % Transform key pressed to respective response
+        
+    fprintf(log,  '%s  \r', [group ' ' initials ' ' num2str(j) ' ' num2str(response) ' ' num2str(reaction_time)]);
+
+    end
+    
+end
+
+
+%%
+
+% Goodbye message
+
+drawpict(27);
+waitkeydown(5000);
+stop_cogent;
+
+fprintf(log,  '%s   \r', 'Gender', gender, 'Age', age);
+fclose('all');
+
+clear all; clc;
+% clear all for next trial
