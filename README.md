@@ -3,7 +3,7 @@
 
 ## Copyright © 2014, Alison C. Holland, All rights reserved.
 
-# ${1:MatLab-Voice-and-Face-Recognition}
+# ${1:MatLab-Experiment-Voice-and-Face-Recognition-Code}
 
 ## This code runs an experiment to investigate familiar-only experiences during tests of voice and face recognition.
 ## The experiment is based on Bruce and Young's (1986) Sequential Stage Model. You can find additional background readings in the References section. 
