@@ -1,8 +1,8 @@
 Copyright © 2014, Alison C. Holland, All rights reserved.
 
-%---------------------------------------
-% MatLab Voice and Face Recognition Code
-%---------------------------------------
+%--------------------------------------------------
+% MatLab-Experiment-Voice-and-Face-Recognition-Code
+%--------------------------------------------------
 
 clear all; clc;
 
